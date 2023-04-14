@@ -4,13 +4,19 @@ import flixel.FlxG;
 import flixel.FlxState;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
+import flixel.util.FlxTimer;
 import menus.MainMenu;
+
+using Util;
 
 class GameOver extends FlxState
 {
 	public var score(default, null):Int;
 
-	public function new(_score:Int)
+	private var _scoreText:FlxText;
+	private final _menuTimer = new FlxTimer();
+
+	public function new(_score:Int):Void
 	{
 		super();
 		this.score = _score;
@@ -22,7 +28,14 @@ class GameOver extends FlxState
 		Util.black.alpha = 0;
 		FlxG.camera.fade(FlxColor.BLACK, 3, true);
 
-		add(new FlxText(0, 0, 0, 'SCORE: ${this.score}', 75, true).screenCenter());
+		_scoreText = new FlxText(0, 0, 0, 'Score: ${this.score}', 100, true);
+		_scoreText.font = Font.GHASTLY_PANIC;
+		_scoreText.color = 0xFFFF0000;
+		_scoreText.screenCenter();
+
+		add(_scoreText);
+
+		_menuTimer.start(5, (_t) -> FlxG.switchState(new MainMenu()));
 		return super.create();
 	}
 

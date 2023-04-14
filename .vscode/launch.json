@@ -9,7 +9,8 @@
 				"-B",
 			],
 			"args": [
-				"--debug" // Switch to "--release" when game is finished.
+				"--debug", // Switch to "--release" when game is finished.
+				"--run"
 			],
 			"console": "integratedTerminal",
 			"justMyCode": true

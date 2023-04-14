@@ -55,14 +55,14 @@ class Static extends FlxState
 		return super.update(_elapsed);
 	}
 
-	private function startStatic()
+	private function startStatic():Void
 	{
 		Util.staticGif.visible = true;
 		Util.staticGif.play();
 		_vhs.play(false, 2);
 	}
 
-	private function stopStatic()
+	private function stopStatic():Void
 	{
 		_stopped = true;
 		_vhs.fadeOut(3);

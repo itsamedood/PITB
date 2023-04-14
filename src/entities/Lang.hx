@@ -9,10 +9,11 @@ import menus.Static;
 
 class Lang extends FlxSprite
 {
-	public var langName(get, never):String;
+	public var langName(get, set):String;
 
 	private var _langName:String;
-	private var _scaring:Bool;
+	private var _ogX:Float;
+	private var _ogY:Float;
 	private var _scream:FlxSound;
 	private final _preScreamTimer = new FlxTimer();
 	private final _screamTimer = new FlxTimer();
@@ -21,21 +22,17 @@ class Lang extends FlxSprite
 	{
 		super(0, 0, 'assets/images/regular/$_lang.png');
 		_langName = _lang;
-		_scaring = false;
 
 		_scream = new FlxSound();
 		_scream.loadEmbedded("assets/sounds/scream.ogg");
 	}
 
-	override public function update(_elapsed:Float)
+	override public function update(_elapsed:Float):Void
 	{
-		if (_scaring)
-			this.angle += 0.05;
-
 		return super.update(_elapsed);
 	}
 
-	public function jumpscare(_score:Int)
+	public function jumpscare(_score:Int):Void
 	{
 		_scream.play(false, 3);
 		_preScreamTimer.start(0.4, (_) ->
@@ -48,14 +45,28 @@ class Lang extends FlxSprite
 			updateHitbox();
 			screenCenter();
 
-			_scaring = true;
+			_ogX = this.x;
+			_ogY = this.y;
+
+			FlxG.camera.shake(0.03, 2);
 			_screamTimer.start(2, (_) -> FlxG.camera.fade(FlxColor.WHITE, 0.5, false, () -> FlxG.switchState(new Static(_score))));
 		});
 	}
 
+	public function reload():Void
+	{
+		loadGraphic('assets/images/regular/${this.langName}.png');
+	}
+
 	@:noCompletion
-	public function get_langName()
+	public function get_langName():String
 	{
 		return _langName;
+	}
+
+	@:noCompletion
+	public function set_langName(_ln):String
+	{
+		return _langName = _ln;
 	}
 }

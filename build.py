@@ -34,5 +34,5 @@ PATH = f"bin/{TYPE}/{OS}/bin/python-is-the-best.app/Contents/{FOLDER}/python-is-
 if OS is None: raise Exception("Unsupported OS.")
 
 
-if __name__ == "__main__":
-    system("lime build %s %s && ./%s" %(BUILD, "-%s" %TYPE, PATH))
+if __name__ == "__main__": system("lime build %s %s && ./%s" %(BUILD, "-%s" %TYPE, PATH) if "run" in FLAGS else "lime build %s %s" %(BUILD, "-%s" %TYPE))
+

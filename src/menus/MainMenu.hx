@@ -6,8 +6,41 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
+import flixel.util.FlxTimer;
 
 using Util;
+
+class LoadState extends FlxState
+{
+	private var _loadText:FlxText;
+	private final _loadTimer = new FlxTimer();
+
+	override public function create():Void
+	{
+		FlxG.mouse.useSystemCursor = true;
+		FlxG.mouse.visible = false;
+
+		_loadText = new FlxText(0, 0, 0, "Loading assets...", 100, true);
+		_loadText.font = Font.HEY_COMIC;
+		// _loadText.color = 0xFFFF0000;
+		_loadText.screenCenter();
+
+		add(_loadText);
+
+		_loadTimer.start(1.5, (_t) ->
+		{
+			Util.eerieBgNoise.loadEmbedded("assets/music/eerie-bg-noise.ogg", true);
+			FlxG.switchState(new MainMenu());
+		});
+
+		return super.create();
+	}
+
+	override public function update(elapsed:Float):Void
+	{
+		return super.update(elapsed);
+	}
+}
 
 class MainMenu extends FlxState
 {
@@ -18,7 +51,7 @@ class MainMenu extends FlxState
 
 	override public function create():Void
 	{
-		FlxG.mouse.useSystemCursor = true;
+		FlxG.mouse.visible = true;
 
 		_titleText = new FlxText(0, 0, 0, "Python Is The Best", 90, true);
 		_titleText.font = Font.HEY_COMIC;
@@ -38,6 +71,7 @@ class MainMenu extends FlxState
 		_pythonLogo.setGraphicSize(200, 200);
 		_pythonLogo.updateHitbox();
 		_pythonLogo.screenCenter();
+		_pythonLogo.angularVelocity = 20;
 
 		Util.addMany(_titleText, _playButton, _exitButton, _pythonLogo);
 		return super.create();
