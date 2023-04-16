@@ -17,19 +17,34 @@ class PlayState extends FlxState
 {
 	public var score(get, set):Int;
 
+	private final _CLICK_TIME:Float = 1;
+
+	// Sprites & Text.
 	private var _blackBg:FlxSprite;
 	private var _black:FlxSprite;
 	private var _flixelFxBg:FlxEffectSprite;
 	private var _guideText:FlxText;
+	private var _timeLeftText:FlxText;
+
+	// Numbers.
 	private var _score = 0;
+	private var _time = 20;
+	private var _clickTime:Float = 0;
+
+	// Booleans.
 	private var _textToGo = false;
 	private var _canClick = true;
 	private var _chanceSucceeded = false;
-	private final _ding = new FlxSound();
-	private final _langs = new FlxTypedGroup<Lang>();
+	private var _lost = false;
+
+	// Timers.
 	private final _textTimer = new FlxTimer();
 	private final _findTimer = new FlxTimer();
 	private final _scareTimer = new FlxTimer();
+
+	// Other.
+	private final _ding = new FlxSound();
+	private final _langs = new FlxTypedGroup<Lang>();
 
 	override public function create():Void
 	{
@@ -51,10 +66,17 @@ class PlayState extends FlxState
 		_flixelFxBg.visible = false;
 
 		_guideText = new FlxText(0, 0, 0, "Find and click the best programming language.", 40, true);
-		_guideText.screenCenter().y -= (FlxG.height / 3);
-		_guideText.x += 200;
 		_guideText.font = Font.HEY_COMIC;
 		_guideText.alpha = 0.5;
+		_guideText.screenCenter();
+
+		_findTimer.start(_time, (_t) -> killPlayer(_langs.getRandom()));
+
+		_timeLeftText = new FlxText(0, 0, 0, '${_findTimer.timeLeft}', 75, true);
+		_timeLeftText.font = Font.GHASTLY_PANIC;
+		_timeLeftText.alpha = 0.3;
+		_timeLeftText.screenCenter().x += (FlxG.width / 3) + 75;
+		_timeLeftText.y -= (FlxG.height / 3) + 75;
 
 		Util.eerieBgNoise.play(false);
 
@@ -67,7 +89,7 @@ class PlayState extends FlxState
 		addLangs();
 		spawnLangs();
 
-		Util.addMany(_blackBg, _langs, _flixelFxBg, _black, _guideText);
+		Util.addMany(_blackBg, _langs, _flixelFxBg, _black, _guideText, _timeLeftText);
 		return super.create();
 	}
 
@@ -82,6 +104,9 @@ class PlayState extends FlxState
 		}
 		#end
 
+		if (_clickTime > 0)
+			_clickTime -= 0.1;
+
 		if (_textToGo && _guideText.alpha > 0)
 			_guideText.alpha -= 0.05;
 
@@ -90,31 +115,14 @@ class PlayState extends FlxState
 
 		_langs.forEach((_l) ->
 		{
-			if ((FlxG.mouse.overlaps(_l) && (FlxG.mouse.justPressed && _canClick)))
+			if ((FlxG.mouse.overlaps(_l) && (FlxG.mouse.justPressed && (_canClick && !_lost && _clickTime <= 0))))
 			{
-				if (_l.langName != "python")
-				{
-					_l.jumpscare(this.score);
-					_scareTimer.start(0.4, (_t) ->
-					{
-						if (_l.langName == "haxeflixel")
-							_flixelFxBg.visible = true;
-						_black.visible = false;
-						_blackBg.visible = true;
-						Util.eerieBgNoise.fadeOut(2);
-
-						_langs.forEach((_ol) ->
-						{
-							if (_ol.langName != _l.langName)
-								_ol.visible = false;
-						});
-					});
-				}
-				else
-					ding();
+				_l.langName != "python" ? killPlayer(_l) : ding();
+				_clickTime = _CLICK_TIME;
 			}
 		});
 
+		_timeLeftText.text = '${Math.round(_findTimer.timeLeft)}';
 		return super.update(_elapsed);
 	}
 
@@ -186,9 +194,35 @@ class PlayState extends FlxState
 		});
 	}
 
+	private function killPlayer(_l:Lang):Void
+	{
+		_lost = true;
+		_l.jumpscare(this.score);
+		_findTimer.cancel();
+
+		_scareTimer.start(0.4, (_t) ->
+		{
+			if (_l.langName == "haxeflixel")
+				_flixelFxBg.visible = true;
+			_black.visible = false;
+			_blackBg.visible = true;
+			Util.eerieBgNoise.fadeOut(2);
+
+			_langs.forEach((_ol) ->
+			{
+				if (_ol.langName != _l.langName)
+					_ol.visible = false;
+			});
+		});
+	}
+
 	private function ding():Void
 	{
+		if (this.score > 0 && this.score % 10 == 0)
+			_time -= 2;
+
 		_ding.play(true);
+		_findTimer.reset(_time);
 		FlxG.camera.flash(FlxColor.LIME, 0.5);
 		score++;
 		spawnLangs();

@@ -36,6 +36,7 @@
 	<haxelib name="flixel-addons" />
 	<haxelib name="flixel-ui" />
 	<haxelib name="haxe-gif" />
+	<haxedef name="no-deprecation-warnings" />
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
@@ -43,6 +44,7 @@
 	<haxedef name="FLX_NO_TOUCH" />
 	<haxedef name="FLX_NO_GAMEPAD" />
 	<haxedef name="FLX_NO_DEBUG" unless="debug" />
+
 
 	<!-- _________________________________ Custom _______________________________ -->
 

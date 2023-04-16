@@ -6,6 +6,7 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
+import flixel.util.FlxSave;
 import flixel.util.FlxTimer;
 
 using Util;
@@ -45,6 +46,7 @@ class LoadState extends FlxState
 class MainMenu extends FlxState
 {
 	private var _titleText:FlxText;
+	private var _highscoreText:FlxText;
 	private var _playButton:ClickableText;
 	private var _exitButton:ClickableText;
 	private var _pythonLogo:FlxSprite;
@@ -74,6 +76,8 @@ class MainMenu extends FlxState
 		_pythonLogo.angularVelocity = 20;
 
 		Util.addMany(_titleText, _playButton, _exitButton, _pythonLogo);
+		displayHighscore();
+
 		return super.create();
 	}
 
@@ -86,5 +90,25 @@ class MainMenu extends FlxState
 			FlxG.sound.play("assets/sounds/honk.ogg", 1, false);
 
 		return super.update(_elapsed);
+	}
+
+	private function displayHighscore():Void
+	{
+		final save = new FlxSave();
+		save.bind("PITB");
+
+		final highscore:Null<Int> = save.data.highscore;
+
+		if (highscore != null)
+		{
+			_highscoreText = new FlxText(0, 0, 0, 'Highscore: $highscore', 50, true);
+			_highscoreText.font = Font.GHASTLY_PANIC;
+			_highscoreText.alpha = 0.5;
+			_highscoreText.screenCenter().y += (FlxG.height / 3) + (_playButton.height);
+
+			add(_highscoreText);
+		}
+
+		save.close();
 	}
 }

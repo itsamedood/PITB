@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.FlxState;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
+import flixel.util.FlxSave;
 import flixel.util.FlxTimer;
 import menus.MainMenu;
 
@@ -34,8 +35,10 @@ class GameOver extends FlxState
 		_scoreText.screenCenter();
 
 		add(_scoreText);
+		saveHighscore();
 
 		_menuTimer.start(5, (_t) -> FlxG.switchState(new MainMenu()));
+
 		return super.create();
 	}
 
@@ -45,5 +48,18 @@ class GameOver extends FlxState
 			FlxG.switchState(new MainMenu());
 
 		return super.update(_elapsed);
+	}
+
+	private function saveHighscore():Void
+	{
+		final save = new FlxSave();
+		save.bind("PITB");
+
+		final highscore:Null<Int> = save.data.highscore;
+
+		if ((highscore == null || this.score > highscore) && this.score > 0)
+			save.data.highscore = this.score;
+
+		save.close();
 	}
 }
