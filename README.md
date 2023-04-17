@@ -16,6 +16,7 @@
 
 ## How can I build the game myself?
 > Not sure why you'd want to, but if you really wanna:
+>
 > 1\) Clone this repo.
 >
 > 2\) Run:
