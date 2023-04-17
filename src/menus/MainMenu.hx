@@ -13,6 +13,7 @@ using Util;
 
 class LoadState extends FlxState
 {
+	private var _me:FlxSprite;
 	private var _loadText:FlxText;
 	private final _loadTimer = new FlxTimer();
 
@@ -21,12 +22,14 @@ class LoadState extends FlxState
 		FlxG.mouse.useSystemCursor = true;
 		FlxG.mouse.visible = false;
 
+		_me = new FlxSprite(0, 0, "assets/images/logos/itsamedood.png");
+		_me.screenCenter().y += 100;
+
 		_loadText = new FlxText(0, 0, 0, "Loading assets...", 100, true);
 		_loadText.font = Font.HEY_COMIC;
-		// _loadText.color = 0xFFFF0000;
-		_loadText.screenCenter();
+		_loadText.screenCenter().y -= (FlxG.height / 3);
 
-		add(_loadText);
+		Util.addMany(_me, _loadText);
 
 		_loadTimer.start(1.5, (_t) ->
 		{

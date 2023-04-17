@@ -1,7 +1,7 @@
 {
 	"configurations": [
 		{
-			"name": "Build Game",
+			"name": "Debug",
 			"type": "python",
 			"request": "launch",
 			"program": "build.py",
@@ -9,7 +9,22 @@
 				"-B",
 			],
 			"args": [
-				"--debug", // Switch to "--release" when game is finished.
+				"--debug",
+				"--run"
+			],
+			"console": "integratedTerminal",
+			"justMyCode": true
+		},
+		{
+			"name": "Release",
+			"type": "python",
+			"request": "launch",
+			"program": "build.py",
+			"pythonArgs": [
+				"-B",
+			],
+			"args": [
+				"--release",
 				"--run"
 			],
 			"console": "integratedTerminal",
