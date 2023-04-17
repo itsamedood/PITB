@@ -17,6 +17,7 @@
 ## How can I build the game myself?
 > Not sure why you'd want to, but if you really wanna:
 > 1\) Clone this repo.
+>
 > 2\) Run:
 > > ```sh
 > > $ python3 -B build.py
@@ -33,5 +34,5 @@
 
 <div align="center">
     <br>
-	<img src="assets/images/logos/itsamedood.png" width="100" height="100" style="border-radius: 25%" />
+	<img src="assets/images/logos/itsamedood.png" width="100" height="100" />
 </div>
