@@ -11,15 +11,14 @@
 ## Can I play?
 > Yeah sure, I don't care 😅
 
-## Where do I download this ~~garbage~~ game?
-> [Right here!](https://github.com/itsamedood/PITB/releases)
-
-## How can I build the game myself?
+## How can I play this ~~garbage~~ game?
 > Not sure why you'd want to, but if you really wanna:
+> 
+> 1\) Install [Haxe](https://haxe.org), [Haxeflixel](https://haxeflixel.com) & its dependencies.
 >
-> 1\) Clone this repo.
+> 2\) Clone this repository.
 >
-> 2\) Run:
+> 3\) Run:
 > > ```sh
 > > $ python3 -B build.py
 > > # Use --debug to build in debug mode.
