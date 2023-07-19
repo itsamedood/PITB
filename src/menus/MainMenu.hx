@@ -72,8 +72,8 @@ class MainMenu extends FlxState
 		_exitButton.screenCenter().x += 100;
 		_exitButton.y += 250;
 
-		_pythonLogo = new FlxSprite(0, 0, "assets/images/regular/python.png");
-		_pythonLogo.setGraphicSize(200, 200);
+		_pythonLogo = new FlxSprite(0, 0, "assets/images/logos/pitblogo.png");
+		_pythonLogo.setGraphicSize(200, 250);
 		_pythonLogo.updateHitbox();
 		_pythonLogo.screenCenter();
 		_pythonLogo.angularVelocity = 20;

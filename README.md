@@ -1,6 +1,6 @@
 <div align="center">
 	<h1>Python is The Best</h1>
-	<img src="assets/images/regular/python.png" width="100" height="100">
+	<img src="assets/images/logos/pitblogo.png" width="200" height="250">
 	<br>
 </div>
 
@@ -13,7 +13,7 @@
 
 ## How can I play this ~~garbage~~ game?
 > Not sure why you'd want to, but if you really wanna:
-> 
+>
 > 1\) Install [Haxe](https://haxe.org), [Haxeflixel](https://haxeflixel.com) & its dependencies.
 >
 > 2\) Clone this repository.

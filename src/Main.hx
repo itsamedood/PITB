@@ -12,7 +12,7 @@ class Main extends Sprite
 	{
 		super();
 
-		addChildAt(new FlxGame(0, 0, LoadState, 1, 120, 120, false, true), 0);
+		addChildAt(new FlxGame(0, 0, LoadState, 120, 120, false, true), 0);
 
 		Util.staticGif = new AnimatedGif(Assets.getBytes("assets/gifs/static.gif"));
 		Util.staticGif.visible = false;
